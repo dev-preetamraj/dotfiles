@@ -131,14 +131,17 @@ return {
     vim.list_extend(ensure_installed, { 'stylua' })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-    -- Bridge Mason and nvim-lspconfig
-    require('mason-lspconfig').setup()
-
-    -- Set up servers with nvim-lspconfig
-    local lspconfig = require 'lspconfig'
+    -- Register servers with the Neovim 0.11+ LSP API (vim.lsp.config / vim.lsp.enable)
     for server_name, config in pairs(servers) do
       config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
-      lspconfig[server_name].setup(config)
+      vim.lsp.config(server_name, config)
     end
+
+    -- Bridge Mason and nvim-lspconfig; automatic_enable calls vim.lsp.enable()
+    -- for each installed server using the configs registered above.
+    require('mason-lspconfig').setup {
+      ensure_installed = {}, -- installs handled by mason-tool-installer above
+      automatic_enable = true,
+    }
   end,
 }
