@@ -1,0 +1,37 @@
+# herdr config — symlinked to ~/.config/herdr/config.toml via GNU stow.
+# Validate:  herdr config check      Apply to running server:  herdr server reload-config
+# Unknown keys are rejected, so uncomment only what you use.
+
+# [update]
+# channel = "stable"          # or "preview"
+
+# [ui]
+# sidebar_min_width = 18
+# sidebar_max_width = 36
+
+# Keybindings. `prefix` is the leader; actions map to a key or a key table.
+[keys]
+prefix = "ctrl+a"
+# toggle_sidebar   = "p"
+# new_tab          = "c"
+# close_tab        = "x"
+# split_vertical   = "|"
+# close_pane       = "q"
+# focus_pane_left  = "h"
+# focus_pane_down  = "j"
+# focus_pane_up    = "k"
+# focus_pane_right = "l"
+# next_workspace   = "]"
+# previous_workspace = "["
+# reload_config    = "r"
+# copy_mode        = "["
+# detach           = "d"
+
+# [theme]
+
+[ui.toast]
+delivery = "system"
+
+[theme]
+name = "catppuccin"
+auto_switch = false
