@@ -6,6 +6,13 @@ return {
     'mason-org/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
+    -- Configure LuaLS for Neovim APIs and lazily load plugin libraries.
+    {
+      'folke/lazydev.nvim',
+      ft = 'lua',
+      opts = {},
+    },
+
     -- Useful status updates for LSP
     {
       'j-hui/fidget.nvim',
@@ -133,7 +140,7 @@ return {
           Lua = {
             completion = { callSnippet = 'Replace' },
             runtime = { version = 'LuaJIT' },
-            workspace = { checkThirdParty = false, library = vim.api.nvim_get_runtime_file('', true) },
+            workspace = { checkThirdParty = false },
             diagnostics = { globals = { 'vim' }, disable = { 'missing-fields' } },
             format = { enable = false },
           },

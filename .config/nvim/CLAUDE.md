@@ -18,6 +18,7 @@ Personal Neovim configuration using **lazy.nvim** as the plugin manager. Part of
 - **Nord colorscheme** with transparent background by default (`<leader>bg` toggles)
 - **conform.nvim** for manual formatting with `<leader>f` (replaces none-ls, which is commented out)
 - **Mason** manages LSP servers and tools — servers are defined in `lua/plugins/lsp.lua` and auto-installed
+- **LazyDev** provides Neovim Lua API and plugin-library completion without loading the entire runtime into LuaLS
 - **LSP servers configured**: ts_ls, ruff, pylsp, html, emmet_ls, cssls, tailwindcss, dockerls, sqlls, terraformls, jsonls, yamlls, lua_ls. For Python, pylsp provides language intelligence and Ruff provides diagnostics and code actions; Conform handles formatting.
 - **Formatters**: stylua (Lua), ruff_format (Python), prettier (JS/TS/CSS/HTML/JSON/Markdown)
 - **vim-tmux-navigator** for seamless tmux/nvim split navigation
