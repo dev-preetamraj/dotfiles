@@ -9,10 +9,10 @@ return {
     },
     opts = {
       highlights = {
-        line_insert = '#2f4438',
-        line_delete = '#4b2f38',
-        char_insert = '#416b50',
-        char_delete = '#7a3f4c',
+        line_insert = '#24342c',
+        line_delete = '#38272e',
+        char_insert = '#24342c',
+        char_delete = '#38272e',
       },
       diff = {
         layout = 'inline',
