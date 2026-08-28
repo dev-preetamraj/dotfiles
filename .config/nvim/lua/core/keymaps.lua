@@ -60,6 +60,9 @@ vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts) --  go to previous tab
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
+-- Toggle the syntax-tree fold under the cursor
+vim.keymap.set('n', '<leader>z', 'za', { desc = 'Toggle fold under cursor' })
+
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', opts)
 vim.keymap.set('v', '>', '>gv', opts)

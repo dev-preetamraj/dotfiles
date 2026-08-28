@@ -15,6 +15,8 @@ after another. `Ctrl`, `Shift`, and `Option` combinations are pressed together.
 | Comment/uncomment selected lines | Select lines, then `gc` |
 | Comment using a motion | `gc` followed by a motion, such as `gcap` |
 | Toggle word wrap | `Space l w` |
+| Collapse/expand function or block under cursor | `Space z` |
+| Collapse/open all folds | `zM` / `zR` |
 | Start or expand syntax-tree selection | `Ctrl+G` repeatedly |
 | Shrink syntax-tree selection | `Backspace` |
 | Move selected lines down/up | `Ctrl+J` / `Ctrl+K` |
