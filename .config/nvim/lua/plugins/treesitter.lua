@@ -46,8 +46,8 @@ return {
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = '<C-space>',
-        node_incremental = '<C-space>',
+        init_selection = '<C-g>',
+        node_incremental = '<C-g>',
         scope_incremental = false,
         node_decremental = '<bs>',
       },
@@ -133,16 +133,8 @@ return {
     },
   },
 
-  -- ✨ ADD THIS CONFIG FUNCTION
   config = function(_, opts)
-    -- Call the default setup function
     require('nvim-treesitter.configs').setup(opts)
-
-    -- Tmux forwards Ctrl-Space as the legacy NUL key, <C-@>. Keep both
-    -- representations mapped now that modern terminals can distinguish them.
-    local incremental_selection = require 'nvim-treesitter.incremental_selection'
-    vim.keymap.set('n', '<C-@>', incremental_selection.init_selection, { desc = 'Start Treesitter selection' })
-    vim.keymap.set('x', '<C-@>', incremental_selection.node_incremental, { desc = 'Expand Treesitter selection' })
 
     -- Add the repeatable move keymaps
     local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
