@@ -126,8 +126,10 @@ return {
       },
     }
 
-    -- Ensure servers are installed by mason-tool-installer
-    local ensure_installed = vim.tbl_keys(servers)
+    -- Keep LSP servers separate from non-LSP tools so Mason only enables the
+    -- servers defined above.
+    local server_names = vim.tbl_keys(servers)
+    local ensure_installed = vim.deepcopy(server_names)
     vim.list_extend(ensure_installed, { 'stylua' })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -137,11 +139,10 @@ return {
       vim.lsp.config(server_name, config)
     end
 
-    -- Bridge Mason and nvim-lspconfig; automatic_enable calls vim.lsp.enable()
-    -- for each installed server using the configs registered above.
+    -- Bridge Mason and nvim-lspconfig; only enable the configured LSP servers.
     require('mason-lspconfig').setup {
       ensure_installed = {}, -- installs handled by mason-tool-installer above
-      automatic_enable = true,
+      automatic_enable = server_names,
     }
   end,
 }
