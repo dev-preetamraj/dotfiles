@@ -26,6 +26,7 @@ require('lazy').setup {
   require 'plugins.git',
   require 'plugins.alpha',
   require 'plugins.indent-blankline',
+  require 'plugins.render-markdown',
   require 'plugins.misc',
   require 'plugins.vim-visual-multi',
 }
