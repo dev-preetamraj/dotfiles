@@ -138,6 +138,12 @@ return {
     -- Call the default setup function
     require('nvim-treesitter.configs').setup(opts)
 
+    -- Tmux forwards Ctrl-Space as the legacy NUL key, <C-@>. Keep both
+    -- representations mapped now that modern terminals can distinguish them.
+    local incremental_selection = require 'nvim-treesitter.incremental_selection'
+    vim.keymap.set('n', '<C-@>', incremental_selection.init_selection, { desc = 'Start Treesitter selection' })
+    vim.keymap.set('x', '<C-@>', incremental_selection.node_incremental, { desc = 'Expand Treesitter selection' })
+
     -- Add the repeatable move keymaps
     local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
     vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move)
