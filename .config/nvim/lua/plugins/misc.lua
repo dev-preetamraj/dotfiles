@@ -29,6 +29,8 @@ return {
   {
     -- High-performance color highlighter
     'catgoose/nvim-colorizer.lua',
+    name = 'colorizer-catgoose',
+    main = 'colorizer',
     event = 'BufReadPre',
     opts = {},
   },
