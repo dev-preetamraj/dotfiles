@@ -67,6 +67,12 @@ vim.keymap.set('v', '>', '>gv', opts)
 -- Keep last yanked when pasting
 vim.keymap.set('v', 'p', '"_dP', opts)
 
+-- Move selected lines while preserving the selection.
+local move_selection_down = ":m '>+1<CR>gv=gv"
+local move_selection_up = ":m '<-2<CR>gv=gv"
+vim.keymap.set('v', '<C-j>', move_selection_down, opts)
+vim.keymap.set('v', '<C-k>', move_selection_up, opts)
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', function()
   vim.diagnostic.jump { count = -1, float = true }
