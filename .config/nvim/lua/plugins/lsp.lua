@@ -44,6 +44,24 @@ return {
 
         -- Highlight references under the cursor
         local client = vim.lsp.get_client_by_id(event.data.client_id)
+        if client then
+          -- Conform is the only formatter. Keep pylsp for Python language
+          -- intelligence and Ruff for diagnostics and code actions.
+          if client.name == 'pylsp' or client.name == 'ruff' then
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end
+
+          if client.name == 'pylsp' then
+            client.server_capabilities.codeActionProvider = false
+          end
+
+          -- pylsp provides richer hover information than Ruff.
+          if client.name == 'ruff' then
+            client.server_capabilities.hoverProvider = false
+          end
+        end
+
         if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
           local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -90,13 +108,10 @@ return {
               jedi = {
                 environment = vim.fn.exepath 'python3' or vim.fn.exepath 'python',
               },
-              -- Using ruff for linting is highly recommended
-              ruff = {
-                enabled = true,
-              },
-              -- Disable other linters if you are using ruff
+              -- Ruff runs as a separate LSP, so disable pylsp's overlapping linters.
               pycodestyle = { enabled = false },
               pyflakes = { enabled = false },
+              mccabe = { enabled = false },
               pylint = { enabled = false },
             },
           },
