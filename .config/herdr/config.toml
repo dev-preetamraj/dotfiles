@@ -1,3 +1,4 @@
+onboarding = false
 # herdr config — symlinked to ~/.config/herdr/config.toml via GNU stow.
 # Validate:  herdr config check      Apply to running server:  herdr server reload-config
 # Unknown keys are rejected, so uncomment only what you use.
