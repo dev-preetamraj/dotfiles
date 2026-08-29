@@ -1,14 +1,14 @@
 return {
   'nvim-treesitter/nvim-treesitter',
-  branch = 'master',
+  branch = 'main',
+  lazy = false,
   build = ':TSUpdate',
-  event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
   },
-  main = 'nvim-treesitter.configs',
-  opts = {
-    ensure_installed = {
+  config = function()
+    local treesitter = require 'nvim-treesitter'
+    local ensure_installed = {
       'lua',
       'python',
       'javascript',
@@ -36,26 +36,32 @@ return {
       'css',
       'html',
       'query',
-    },
-    auto_install = true,
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = { 'ruby' },
-    },
-    indent = { enable = true, disable = { 'ruby' } },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<C-g>',
-        node_incremental = '<C-g>',
-        scope_incremental = false,
-        node_decremental = '<bs>',
-      },
-    },
-  },
+    }
 
-  config = function(_, opts)
-    require('nvim-treesitter.configs').setup(opts)
+    treesitter.setup()
+    treesitter.install(ensure_installed)
+
+    vim.api.nvim_create_autocmd('FileType', {
+      group = vim.api.nvim_create_augroup('treesitter-start', { clear = true }),
+      callback = function(args)
+        if not pcall(vim.treesitter.start, args.buf) then
+          return
+        end
+
+        if args.match == 'ruby' then
+          vim.bo[args.buf].syntax = 'on'
+        else
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
+      end,
+    })
+
+    vim.keymap.set({ 'n', 'x' }, '<C-g>', function()
+      vim.treesitter.select 'parent'
+    end, { desc = 'Select parent syntax node' })
+    vim.keymap.set('x', '<BS>', function()
+      vim.treesitter.select 'child'
+    end, { desc = 'Select child syntax node' })
 
     require('nvim-treesitter-textobjects').setup {
       select = {
