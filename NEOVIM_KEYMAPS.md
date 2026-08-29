@@ -82,7 +82,8 @@ These mappings are available when an LSP is attached to the current buffer.
 
 | Action | Key |
 | --- | --- |
-| Open Git status and diffs | `Space g s` |
+| Open Git status, or choose/resolve conflicted files | `Space g s` |
+| Resolve current conflicted file | `Space g m` |
 | Open repository history | `Space g h` |
 | Open current-file history | `Space g H` |
 | Blame current line | `Space g b` |
@@ -92,6 +93,9 @@ These mappings are available when an LSP is attached to the current buffer.
 | Preview hunk | `Space h p` |
 | Stage hunk | `Space h s` |
 | Reset hunk | `Space h r` |
+| Next/previous merge conflict | `]x` / `[x` |
+| Accept incoming/current conflict | `Space c t` / `Space c o` |
+| Accept both conflict versions | `Space c b` |
 | Close CodeDiff | `q` or `Esc` |
 
 ## Completion
