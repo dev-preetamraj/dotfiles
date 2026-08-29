@@ -23,6 +23,21 @@ return {
     },
   },
   config = function()
+    local function copy_node_path(state, relative)
+      local node = state.tree:get_node()
+      if not node then
+        return
+      end
+
+      local path = node.path or node:get_id()
+      if relative then
+        path = vim.fs.relpath(state.path or vim.uv.cwd(), path) or path
+      end
+
+      vim.fn.setreg('+', path)
+      vim.notify('Copied path: ' .. path)
+    end
+
     require('neo-tree').setup {
       popup_border_style = 'rounded',
       open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' },
@@ -54,6 +69,16 @@ return {
         },
       },
       filesystem = {
+        window = {
+          mappings = {
+            ['Y'] = function(state)
+              copy_node_path(state, false)
+            end,
+            ['<leader>Y'] = function(state)
+              copy_node_path(state, true)
+            end,
+          },
+        },
         filtered_items = {
           hide_dotfiles = false,
           hide_gitignored = false,

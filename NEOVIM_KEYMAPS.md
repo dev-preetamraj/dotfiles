@@ -37,6 +37,8 @@ after another. `Ctrl`, `Shift`, and `Option` combinations are pressed together.
 | Create a new buffer | `Space b` |
 | Toggle file explorer | `Space e` |
 | Reveal the current file in the explorer | `\` |
+| Copy selected Neo-tree file/folder absolute path | `Y` |
+| Copy selected Neo-tree file/folder project-relative path | `Space Y` |
 
 ## Windows
 
