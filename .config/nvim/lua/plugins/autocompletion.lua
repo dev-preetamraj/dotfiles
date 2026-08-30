@@ -152,7 +152,10 @@ return { -- Autocompletion
           -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
           group_index = 0,
         },
-        { name = 'nvim_lsp' },
+        -- Avoid asking the language server for the entire Python namespace after
+        -- a single character. Two characters keeps suggestions responsive while
+        -- still making completion feel immediate.
+        { name = 'nvim_lsp', keyword_length = 2 },
         { name = 'luasnip' },
         { name = 'buffer' },
         { name = 'path' },
@@ -167,6 +170,18 @@ return { -- Autocompletion
             buffer = '[Buffer]',
             path = '[Path]',
           })[entry.source.name]
+
+          -- Distinguish identically named LSP auto-imports (for example,
+          -- models.Task and asyncio.Task) directly in the completion menu.
+          if entry.source.name == 'nvim_lsp' then
+            local edits = entry.completion_item.additionalTextEdits or {}
+            local import_text = edits[1] and edits[1].newText or ''
+            local module = import_text:match 'from%s+([%w_%.]+)%s+import' or import_text:match 'import%s+([%w_%.]+)'
+            if module then
+              vim_item.menu = '[LSP · ' .. module .. ']'
+            end
+          end
+
           return vim_item
         end,
       },

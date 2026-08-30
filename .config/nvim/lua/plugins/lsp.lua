@@ -29,6 +29,20 @@ return {
     'hrsh7th/cmp-nvim-lsp',
   },
   config = function()
+    vim.diagnostic.config {
+      severity_sort = true,
+      signs = true,
+      underline = true,
+      virtual_text = {
+        spacing = 2,
+        source = 'if_many',
+      },
+      float = {
+        border = 'rounded',
+        source = true,
+      },
+    }
+
     -- This autocommand sets up buffer-local keymaps and settings when an LSP attaches.
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
@@ -52,18 +66,14 @@ return {
         -- Highlight references under the cursor
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client then
-          -- Conform is the only formatter. Keep pylsp for Python language
-          -- intelligence and Ruff for diagnostics and code actions.
-          if client.name == 'pylsp' or client.name == 'ruff' then
+          -- Conform is the only formatter. Basedpyright provides Python language
+          -- intelligence and type checking; Ruff provides lint actions.
+          if client.name == 'basedpyright' or client.name == 'ruff' then
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
           end
 
-          if client.name == 'pylsp' then
-            client.server_capabilities.codeActionProvider = false
-          end
-
-          -- pylsp provides richer hover information than Ruff.
+          -- Basedpyright provides richer hover information than Ruff.
           if client.name == 'ruff' then
             client.server_capabilities.hoverProvider = false
           end
@@ -107,19 +117,17 @@ return {
     local servers = {
       ts_ls = {},
       ruff = {},
-      pylsp = {
+      -- Basedpyright owns Python completion, navigation, and static type checking.
+      -- Ruff remains responsible for lint diagnostics and code actions.
+      basedpyright = {
         settings = {
-          pylsp = {
-            plugins = {
-              -- IMPORTANT: This tells jedi to use the python from your activated venv
-              jedi = {
-                environment = vim.fn.exepath 'python3' or vim.fn.exepath 'python',
-              },
-              -- Ruff runs as a separate LSP, so disable pylsp's overlapping linters.
-              pycodestyle = { enabled = false },
-              pyflakes = { enabled = false },
-              mccabe = { enabled = false },
-              pylint = { enabled = false },
+          basedpyright = {
+            disableOrganizeImports = true,
+            analysis = {
+              autoImportCompletions = true,
+              autoSearchPaths = true,
+              diagnosticMode = 'openFilesOnly',
+              typeCheckingMode = 'standard',
             },
           },
         },
