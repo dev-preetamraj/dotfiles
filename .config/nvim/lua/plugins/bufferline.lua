@@ -39,20 +39,7 @@ return {
         maximum_length = 15,
         sort_by = 'insert_at_end',
       },
-      highlights = {
-        separator = {
-          fg = '#434C5E',
-        },
-        buffer_selected = {
-          bold = true,
-          italic = false,
-        },
-        -- separator_selected = {},
-        -- tab_selected = {},
-        -- background = {},
-        -- indicator_selected = {},
-        -- fill = {},
-      },
+      highlights = require('catppuccin.special.bufferline').get_theme(),
     }
   end,
 }
